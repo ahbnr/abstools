@@ -8,7 +8,7 @@ plugins {
 
     // JastAdd plugin documentation at https://github.com/jastadd/jastaddgradle
     id 'org.jastadd' version '1.13.3'
-    id 'antlr'
+    // id 'antlr'
     id "com.github.spotbugs" version "1.6.9"
 }
 
@@ -49,7 +49,7 @@ dependencies {
     testImplementation 'org.hamcrest:hamcrest-core:1.3'
 
     jastadd2 'org.jastadd:jastadd:2.3.2'
-    antlr 'org.antlr:antlr4:4.7.2'
+    // antlr 'org.antlr:antlr4:4.7.2'
 }
 
 // JastAdd
@@ -65,10 +65,10 @@ sourceSets.main.java.srcDir "$buildDir/generated-src/jastadd/main"
 compileJava.dependsOn 'generateJastAddAST'
 
 // antlr
-generateGrammarSource {
-    arguments += [ '-package', 'org.abs_models.frontend.antlr.parser' ]
-}
-compileJava.dependsOn 'generateGrammarSource'
+// generateGrammarSource {
+//     arguments += [ '-package', 'org.abs_models.frontend.antlr.parser' ]
+// }
+// compileJava.dependsOn 'generateGrammarSource'
 
 // erlang
 
@@ -138,6 +138,7 @@ task plainJar(type: Copy, dependsOn: jar) {
     into 'dist'
     rename 'absfrontend(.*).jar', 'absfrontend.jar'
 }
+plainJar.dependsOn 'jar'
 clean {
     delete 'dist/'
 }
