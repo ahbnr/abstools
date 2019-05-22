@@ -385,7 +385,37 @@ choose_runnable_process(Scheduler, RunnableTasks, PollingTasks, ProcessInfos, Ob
                                              end
                                      end,
                                      Arglist) ++ [[]],
-                    #process_info{pid=Chosen}=apply(SchedulerFunction, [#cog{ref=self()} | Args]),
+                    %% { Output for debugging purposes
+                    io:fwrite("~s", ["\n[BACKEND] Choosing process from ["]),
+                    lists:foreach(
+                        fun(#process_info{method=Method}) ->
+                            io:fwrite("~s ", [Method])
+                        end,
+                        CandidateInfos
+                    ),
+                    io:fwrite("~s", ["]\n"]),
+                    %% }
+                    MaybeProcessInfo=apply(SchedulerFunction, [#cog{ref=self()} | Args]),
+                    Chosen=case MaybeProcessInfo of
+                        % Return type was Maybe<Process> and no process can
+                        % continue currently (Nothing)
+                        dataNothing ->
+                            %% Output just for debugging:
+                            io:fwrite("~s", ["[BACKEND] No process has been chosen.\n"]),
+                            none;
+                        % Return type was Maybe<Process> and a process has been
+                        % chosen to be executed (Just(...))
+                        { dataJust, #process_info{pid=JustChosen,method=Method} } ->
+                            %% Output just for debugging:
+                            io:fwrite("~s ~s ~s", ["[BACKEND] Process for method ", Method, " has been chosen.\n"]),
+                            JustChosen;
+                        % Return type was Process and therefore a process must
+                        % have been chosen to be executed
+                        #process_info{pid=JustChosen,method=Method} ->
+                            %% Output just for debugging:
+                            io:fwrite("~s ~s ~s", ["[BACKEND] Process for method ", Method, " has been chosen.\n"]),
+                            JustChosen
+                    end,
                     {Chosen, PollCrashedSet}
             end
     end.
