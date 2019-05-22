@@ -413,9 +413,6 @@ aspect TypeResolution {
             tu.setPositionFromNode(this);
             return tu;
         }
-        //System.out.println("CHECKING FOR SUPER");
-        //System.out.println(getName());
-        //System.out.println(this.toString());
         when(getDecl().isSuperType())
         to SuperTypeUse {
             // The super-type does not have any annotations.
