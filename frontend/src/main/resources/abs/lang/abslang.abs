@@ -707,7 +707,7 @@ data Pid;
 data Process;
 
 def String method(Process p) = builtin;
-def Fut<Super> destiny(Process p) = builtin;
+def Fut<Any> destiny(Process p) = builtin;
 def Time arrival(Process p) = builtin;
 def Duration cost(Process p) = builtin;
 def Duration proc_deadline(Process p) = builtin;
