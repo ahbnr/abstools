@@ -396,6 +396,14 @@ aspect GenerateMaude {
         return 0;
     }
 
+    public void ThisDestinyExp.generateMaude(PrintStream stream) {
+        throw new NotImplementedYetException(this);
+    }
+
+    public int ThisDestinyExp.numberOfRandom(Set<String> visitedFunctions) {
+        throw new NotImplementedYetException(this);
+    }
+
     public void NullExp.generateMaude(PrintStream stream) {
         stream.print("null ");
     }

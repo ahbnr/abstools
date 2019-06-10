@@ -127,6 +127,7 @@ public enum ErrorMessage {
     WRONG_SCHEDULER_FIELD_ARGUMENT("Invalid scheduler argument %s, must be a field name of class %s."),
     SCHEDULER_ON_DC("User-defined schedulers are not supported on deployment components."),
     THIS_STATIC("No context for `this`."),
+    THIS_DESTINY_STATIC("No context for `thisDestiny`."),
     ORIGINAL_NOT_IN_DELTA("Calls to original(..) are only permitted in modify-class deltas."),
     ERROR_IN_PRODUCT("Error within product %s: %s."),
     ERROR_IN_PRODUCT_WITH_DELTA("Error within product %s while processing delta %s: %s."),

@@ -826,6 +826,11 @@ aspect GenerateErlang {
   }
 
   @Override
+  public void ThisDestinyExp.generateErlangCode(CodeStream ecs,Vars vars){
+    ecs.print("((get(process_info))#process_info.destiny)");
+  }
+
+  @Override
   public void FieldUse.generateErlangCode(CodeStream ecs,Vars vars){
     ecs.format("C:get_val_internal(get(this), '%s')",getName());
   }

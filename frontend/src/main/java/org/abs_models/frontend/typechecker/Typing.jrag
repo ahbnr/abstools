@@ -332,6 +332,7 @@ aspect Typing {
     eq StringLiteral.getType() =  getModel().getStringType();
     eq NullExp.getType() = NullType.INSTANCE;
     eq ThisExp.getType() = getContextDecl().getType();
+    eq ThisDestinyExp.getType() = getModel().getFutType(AnyType.INSTANCE); // TODO: Adapt to use return type of method instead of Any
     eq MinusExp.getType() = getOperand().getType();
     eq NegExp.getType() = getModel().getBoolType();
     
