@@ -41,9 +41,6 @@ Folders
     written in [Ott](https://www.cl.cam.ac.uk/~pes20/ott/)
 
 
-* `emacs` - Editor support for ABS -- moved to
-  https://github.com/abstools/abs-mode but left here for existing users.
-
 * `org.abs-models.releng` - Files used by Jenkins and Buckminster for
   continuous integration at https://envisage.ifi.uio.no:8080/jenkins/.
 
@@ -60,23 +57,6 @@ Folders
     * `maven-support` - Maven plugin for generating Java/Maude from ABS,
       testing and packaging ABS codes
 
-Using Vagrant
--------------
-
-To develop the ABS tools without installing additional software, you
-can use [Vagrant](https://www.vagrantup.com).  Vagrant will start a
-Linux virtual machine and install the needed dependencies.
-
-First, install Vagrant from https://www.vagrantup.com/downloads.html and
-VirtualBox from https://www.virtualbox.org
-
-To create the ABS virtual machine, run the command `vagrant up` in this
-directory.  Run `vagrant ssh` to login to that machine (login vagrant/vagrant), or open
-http://localhost:8888/ to connect to a local version of the collaboratory.
-Currently supported browsers include Firefox, Chrome, recent IE (no Safari).
-
-Within the VM, this directory is accessible as `/vagrant`.
-
 Note for Windows Users
 ----------------------
 
@@ -86,8 +66,8 @@ for the initial `git clone` command, i.e.,
 
     git clone https://github.com/abstools/abstools -c core.autocrlf=false
 
-Otherwise, running the tools inside Vagrant or Docker will fail with obscure
-error messages.
+Otherwise, running the tools inside Docker will fail with obscure error
+messages.
 
 Working with the repository
 ---------------------------
