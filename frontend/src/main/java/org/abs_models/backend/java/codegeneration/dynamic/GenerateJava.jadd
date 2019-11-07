@@ -940,7 +940,7 @@ aspect GenerateJavaDynamic_Core {
         stream.print("thisP");
     }
 
-    public void ThisDestinyExp.generateJavaDynamic(PrintStream stream) {
+    public void DestinyExp.generateJavaDynamic(PrintStream stream) {
         throw new NotImplementedYetException(this);
     }
 

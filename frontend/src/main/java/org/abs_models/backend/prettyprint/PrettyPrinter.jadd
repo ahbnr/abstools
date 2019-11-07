@@ -1292,8 +1292,8 @@ aspect doPrettyPrinter {
         stream.print("this");
     }
 
-    public void ThisDestinyExp.doPrettyPrint(PrintWriter stream, ABSFormatter formatter) {
-        stream.print("thisDestiny");
+    public void DestinyExp.doPrettyPrint(PrintWriter stream, ABSFormatter formatter) {
+        stream.print("destiny");
     }
 
     public void MinusExp.doPrettyPrint(PrintWriter stream, ABSFormatter formatter) {

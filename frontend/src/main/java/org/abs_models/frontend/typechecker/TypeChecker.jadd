@@ -803,9 +803,9 @@ aspect TypeChecker {
         e.add(new TypeError(this,ErrorMessage.THIS_STATIC,""));
     }
 
-    public void ThisDestinyExp.typeCheck(SemanticConditionList e) {
+    public void DestinyExp.typeCheck(SemanticConditionList e) {
       if (getContextDecl().isUnknown())
-        e.add(new TypeError(this,ErrorMessage.THIS_DESTINY_STATIC,""));
+        e.add(new TypeError(this,ErrorMessage.DESTINY_STATIC,""));
     }
 
     public void OriginalCall.typeCheck(SemanticConditionList e) {

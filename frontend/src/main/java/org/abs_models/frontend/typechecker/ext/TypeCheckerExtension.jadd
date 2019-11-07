@@ -69,8 +69,8 @@ aspect TypeCheckerExtension {
         return t;
     }
 
-    refine Typing eq ThisDestinyExp.getType() {
-        Type t = Typing.ThisDestinyExp.getType().fullCopy();
+    refine Typing eq DestinyExp.getType() {
+        Type t = Typing.DestinyExp.getType().fullCopy();
         getModel().getTypeExt().annotateType(t, this);
         return t;
     }

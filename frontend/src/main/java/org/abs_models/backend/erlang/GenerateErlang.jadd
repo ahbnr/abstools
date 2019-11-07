@@ -123,7 +123,7 @@ aspect GenerateErlang {
       "ABS.StdLib.float", "ABS.StdLib.rat",
       "ABS.StdLib.floor", "ABS.StdLib.ceil",
       "ABS.StdLib.sqrt", "ABS.StdLib.log", "ABS.StdLib.exp",
-      "ABS.Scheduler.method", "ABS.Scheduler.destiny", "ABS.Scheduler.arrival", "ABS.Scheduler.proc_deadline");
+      "ABS.Scheduler.method", "ABS.Scheduler.destinyOf", "ABS.Scheduler.arrival", "ABS.Scheduler.proc_deadline");
   public  void FnApp.generateErlangCode(CodeStream ecs,Vars vars){
     FunctionDecl decl = (FunctionDecl)getDecl();
     boolean builtin = decl.getFunctionDef() instanceof BuiltinFunctionDef;
@@ -818,7 +818,7 @@ aspect GenerateErlang {
   }
 
   @Override
-  public void ThisDestinyExp.generateErlangCode(CodeStream ecs,Vars vars){
+  public void DestinyExp.generateErlangCode(CodeStream ecs,Vars vars){
     ecs.print("((get(task_info))#task_info.destiny)");
   }
 

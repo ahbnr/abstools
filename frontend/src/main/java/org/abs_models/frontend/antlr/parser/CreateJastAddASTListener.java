@@ -680,8 +680,8 @@ public class CreateJastAddASTListener extends ABSBaseListener {
     @Override public void exitThisExp(ABSParser.ThisExpContext ctx) {
         setV(ctx, new ThisExp());
     }
-    @Override public void exitThisDestinyExp(ABSParser.ThisDestinyExpContext ctx) {
-        setV(ctx, new ThisDestinyExp());
+    @Override public void exitDestinyExp(ABSParser.DestinyExpContext ctx) {
+        setV(ctx, new DestinyExp());
     }
     @Override public void exitNullExp(ABSParser.NullExpContext ctx) {
         setV(ctx, new NullExp());

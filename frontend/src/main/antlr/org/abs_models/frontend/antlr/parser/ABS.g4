@@ -126,7 +126,7 @@ pure_exp : qualified_identifier '(' pure_exp_list ')'      # FunctionExp
         (b+=TEMPLATESTRINGINBETWEEN e+=pure_exp)*
         TEMPLATESTRINGEND                                  # TemplateStringCompoundExp
     | 'this'                                               # ThisExp
-    | 'thisDestiny'                                        # ThisDestinyExp
+    | 'destiny'                                            # DestinyExp
     | 'null'                                               # NullExp
     | e=pure_exp 'implements' i=interface_name             # ImplementsExp
     | e=pure_exp 'as' i=interface_name                     # AsExp

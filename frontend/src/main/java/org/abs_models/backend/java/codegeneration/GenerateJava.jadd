@@ -1068,7 +1068,7 @@ aspect GenerateJava {
         stream.print("this");
     }
 
-    public void ThisDestinyExp.generateJava(PrintStream stream) {
+    public void DestinyExp.generateJava(PrintStream stream) {
         throw new NotImplementedYetException(this);
     }
 
