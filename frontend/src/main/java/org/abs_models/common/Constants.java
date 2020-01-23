@@ -9,6 +9,7 @@ import java.util.List;
 
 public class Constants {
     public static final String STDLIB_NAME = "ABS.StdLib";
+    public static final String BUILTIN_LIB_NAME = "ABS.Builtin";
 
     public static final String FLI_NAME = "ABS.FLI";
     public static final String META_NAME = "ABS.Meta";

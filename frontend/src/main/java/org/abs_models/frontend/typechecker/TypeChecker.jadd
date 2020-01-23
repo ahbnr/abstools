@@ -604,6 +604,10 @@ aspect TypeChecker {
         e.add(new TypeError(use, ErrorMessage.AMBIGIOUS_USE, name, TypeCheckerHelper.getAlternativesAsString(this)));
         return false;
     }
+    @Override
+    protected boolean AnyTypeDecl.checkDecl(ASTNode<?> use, SemanticConditionList e, ErrorMessage errorMessage, String name) {
+        return false;
+    }
 
     // STMTS
 
@@ -835,7 +839,10 @@ aspect TypeChecker {
         }
     }
     public void AnyTypeUse.typeCheck(SemanticConditionList e) {
-        //TODO
+        final Decl d = getDecl();
+        d.checkDecl(this, e, ErrorMessage.TYPE_NOT_RESOLVABLE, getName());
+
+        // TODO Check if there should be anything added here.
     }
 
     public void UnresolvedTypeUse.typeCheck(SemanticConditionList e) {

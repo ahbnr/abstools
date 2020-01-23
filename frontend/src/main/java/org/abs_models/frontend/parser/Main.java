@@ -56,9 +56,12 @@ import org.abs_models.frontend.ast.ProductDecl;
 import org.abs_models.frontend.ast.ProductLine;
 import org.abs_models.frontend.ast.StarImport;
 import org.abs_models.frontend.ast.StringLiteral;
+import org.abs_models.frontend.ast.Export;
+import org.abs_models.frontend.ast.StarExport;
 import org.abs_models.frontend.delta.DeltaModellingException;
 import org.abs_models.frontend.typechecker.locationtypes.LocationType;
 import org.abs_models.frontend.typechecker.locationtypes.infer.LocationTypeInferrerExtension;
+import org.abs_models.frontend.typechecker.AnyType;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -71,6 +74,7 @@ import org.antlr.v4.runtime.tree.ParseTreeWalker;
 public class Main {
 
     public static final String ABS_STD_LIB = "abs/lang/abslang.abs";
+    public static final String ABS_BUILTIN_LIB = "abs/lang/builtin.abs";
     public static final String UNKNOWN_FILENAME = "<unknown file>";
     public Absc arguments = new Absc(); // tests often create a random Main object, need to initialize this
 
@@ -194,7 +198,8 @@ public class Main {
             parseFileOrDirectory(units, f, verbose);
         }
 
-	units.add(getStdLib());
+        units.add(getBuiltinUnit());
+        units.add(getStdLib());
 
         List<CompilationUnit> unitList = new List<>();
         for (CompilationUnit u : units) {
@@ -470,6 +475,45 @@ public class Main {
         System.out.println("Built from git tree " + getGitVersion());
     }
 
+    /**
+     * Generates a Unit containing builtin elements of the language
+     * which can not be defined using the language syntax (Any type).
+     */
+    public static CompilationUnit getBuiltinUnit() {
+        // FIXME: Creating the built-in Unit fails here, when adding the AnyTypeDecl to the List
+        final List<Decl> declarations = new List<>(
+                AnyType.DECL_INSTANCE // make declaration of Any type predefined
+        );
+
+        final List<Export> exports = new List<>(
+                new StarExport(new Opt()) // export everything from built-in module
+        );
+
+        final ModuleDecl module = new ModuleDecl(
+                Constants.BUILTIN_LIB_NAME, // name
+                exports, // exports
+                new List(), // imports
+                declarations, // declarations
+                new Opt() // main block
+        );
+
+        final List<ModuleDecl> modules = new List<>(
+                module
+        );
+
+        final CompilationUnit unit = new CompilationUnit(
+                ABS_BUILTIN_LIB, // name
+                modules, // module declarations
+                new List(), // delta declarations
+                new List(), // update declarations
+                new Opt(), // product line declarations
+                new List(), // product declarations
+                new List(), // feature declarations
+                new List()// FExts
+        );
+
+        return unit;
+    }
 
     public static CompilationUnit getStdLib() throws IOException, InternalBackendException {
         InputStream stream = Main.class.getClassLoader().getResourceAsStream(ABS_STD_LIB);
@@ -597,15 +641,16 @@ public class Main {
 
     public static Model parse(File file, Reader reader) throws IOException, InternalBackendException  {
 	List<CompilationUnit> units = new List<>();
-	// Note that the unit tests are sensitive to the order in
-	// which the compilation units are added to the result.
+        // Note that the unit tests are sensitive to the order in
+        // which the compilation units are added to the result.
 
-	// TODO: switch the order of the two next lines, change all
-	// freshly-broken unit tests to use `Model.lookup()' instead
-	// of positional tree-walking
-	units.add(getStdLib());
-	units.add(parseUnit(file, reader, false));
-	return new Model(units);
+        // TODO: switch the order of the two next lines, change all
+        // freshly-broken unit tests to use `Model.lookup()' instead
+        // of positional tree-walking
+        units.add(getBuiltinUnit());
+        units.add(getStdLib());
+        units.add(parseUnit(file, reader, false));
+        return new Model(units);
     }
 
     /**
@@ -638,19 +683,36 @@ public class Main {
 		CompilationUnit u
 		    = new ASTPreProcessor().preprocess(l.getCompilationUnit());
 		for (ModuleDecl d : u.getModuleDecls()) {
-		    if (!Constants.STDLIB_NAME.equals(d.getName())) {
-			boolean needsImport = true;
-			for (Import i : d.getImports()) {
-			    if (i instanceof StarImport
-				&& ((StarImport)i).getModuleName().equals(Constants.STDLIB_NAME))
-				needsImport = false;
-			    else if (i instanceof FromImport
-				     && ((FromImport)i).getModuleName().equals(Constants.STDLIB_NAME))
-				needsImport = false;
-			}
-			if (needsImport) {
-			    d.getImports().add(new StarImport(Constants.STDLIB_NAME));
-			}
+		    if (
+                       !Constants.STDLIB_NAME.equals(d.getName())
+                    && !Constants.BUILTIN_LIB_NAME.equals(d.getName())
+            ) {
+                boolean needsBuiltinImport = true;
+                boolean needsStdImport = true;
+                for (Import i : d.getImports()) {
+                    if (i instanceof StarImport
+                        && ((StarImport)i).getModuleName().equals(Constants.BUILTIN_LIB_NAME)
+                    ) needsBuiltinImport = false;
+
+                    else if (i instanceof FromImport
+                         && ((FromImport)i).getModuleName().equals(Constants.BUILTIN_LIB_NAME)
+                    ) needsBuiltinImport = false;
+
+                    if (i instanceof StarImport
+                        && ((StarImport)i).getModuleName().equals(Constants.STDLIB_NAME)
+                    ) needsStdImport = false;
+
+                    else if (i instanceof FromImport
+                         && ((FromImport)i).getModuleName().equals(Constants.STDLIB_NAME)
+                    ) needsStdImport = false;
+                }
+
+                if (needsBuiltinImport) {
+                    d.getImports().add(new StarImport(Constants.BUILTIN_LIB_NAME));
+                }
+                if (needsStdImport) {
+                    d.getImports().add(new StarImport(Constants.STDLIB_NAME));
+                }
 		    }
 		}
 		return u;

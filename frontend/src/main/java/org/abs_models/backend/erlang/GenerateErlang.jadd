@@ -53,6 +53,11 @@ aspect GenerateErlang {
     new ClassGenerator(ea,this);
   }
 
+  public void AnyTypeDecl.generateErlangCode(ErlApp ea) throws IOException
+  {
+    //Ignore AnyTypeDecl
+  }
+
   //DataTypes
   public void DataTypeDecl.generateErlangCode(ErlApp ea) throws IOException
   {

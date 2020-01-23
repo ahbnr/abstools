@@ -236,8 +236,6 @@ aspect TypeResolution {
 
     public final static AnyTypeDecl Model.superDecl = new AnyTypeDecl();
     syn lazy Decl Model.lookup(KindedName name) {
-        System.out.println("LOOKING UP " + name.getName()); // TODO: Remove
-        System.out.println(name.toString());
         if (name.getName().equals("Any")) {
             return superDecl;
         }
@@ -413,13 +411,8 @@ aspect TypeResolution {
             tu.setPositionFromNode(this);
             return tu;
         }
-        //System.out.println("CHECKING FOR SUPER");
-        //System.out.println(getName());
-        //System.out.println(this.toString());
         when(getDecl().isAnyType())
         to AnyTypeUse {
-            // The super-type does not have any annotations.
-            // TODO: Modify ABS.ast to drop annotations for super type
             AnyTypeUse tu = new AnyTypeUse(getName(), getAnnotations());
             tu.setPositionFromNode(this);
             return tu;

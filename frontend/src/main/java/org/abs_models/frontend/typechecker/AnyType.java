@@ -4,10 +4,13 @@
  */
 package org.abs_models.frontend.typechecker;
 
+import org.abs_models.frontend.ast.Decl;
 import org.abs_models.frontend.ast.AnyTypeUse;
+import org.abs_models.frontend.ast.AnyTypeDecl;
 
 public final class AnyType extends Type {
     public static final AnyType INSTANCE = new AnyType();
+    public static final AnyTypeDecl DECL_INSTANCE = new AnyTypeDecl("Any");
 
     @Override
     public Type copy() {
@@ -42,5 +45,10 @@ public final class AnyType extends Type {
     
     public AnyTypeUse toUse() {
         return new AnyTypeUse(getSimpleName(), new org.abs_models.frontend.ast.List<>());
+    }
+
+    @Override
+    public Decl getDecl() {
+        return DECL_INSTANCE;
     }
 }

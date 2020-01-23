@@ -324,6 +324,9 @@ aspect doOutlinePrinter {
     public void ConstructorArg.doOutlinePrint(PrintWriter stream, String prefix) {
     }
 
+    public void AnyTypeUse.doOutlinePrint(PrintWriter stream, String prefix) {
+    }
+
     public void UnresolvedTypeUse.doOutlinePrint(PrintWriter stream, String prefix) {
     }
 
